@@ -57,7 +57,10 @@ class CartConrtroller extends Controller
 
         $check = Cart::where('product_id',$id)->where('session_id',session()->getId())->where('user_id',session('customer'))->first();
         if ($check){
-            return redirect()->back();
+            Cart::where('product_id','=',$id)->first();
+            return response()->json([
+                'error' => 'Product Already Added',
+            ]);
         }else{
             Cart::insert([
                 'user_id' => session('customer'),
@@ -67,7 +70,9 @@ class CartConrtroller extends Controller
                 'session_id' => session()->getId(),
                 'created_at' => Carbon::now(),
             ]);
-            return response()->json();
+            return response()->json([
+                'success' => 'Product Successfully Added',
+            ]);
         }
     }
 

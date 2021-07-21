@@ -90,8 +90,8 @@
                 product_id:id
             },
             success:function(response){
-                allData();
-                const Toast = Swal.mixin({
+                if(response.success) {
+                    const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
@@ -107,6 +107,26 @@
                     icon: 'success',
                     title: 'Product added'
                 })
+                }else {
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Product already add to cart'
+                })
+                }
+                allData();
+
             },
             error:function(error){
                 console.log(error)

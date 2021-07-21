@@ -17,7 +17,7 @@
 <body>
 <head>
     <div class="wrapper">
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
             <div class="container">
                 <a class="navbar-brand text-white" href="{{ route('home') }}">BDSHOP</a>
                 <div class="text-right d-inline-flex">

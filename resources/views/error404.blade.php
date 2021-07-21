@@ -4,7 +4,7 @@
         <div class="alert alert-danger">{{ session('type') }}</div>
     @endif
     <section>
-        <div class="wrapper">
+        <div class="wrapper mt-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-3">
