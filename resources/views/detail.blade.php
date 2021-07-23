@@ -53,7 +53,6 @@
                                         <div class="d-flex">
                                             <div id="star"></div>
                                             <div id="re-total" class="star ml-3">
-                                            <span id="re-total"> reviews)</span>
                                         </div>
                                         </div>
 
