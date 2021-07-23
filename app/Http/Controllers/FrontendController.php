@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Reviews;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -44,5 +45,29 @@ class FrontendController extends Controller
         }else{
             return redirect()->back();
         }
+    }
+
+
+    public function commentList($id) {
+        $reviews = DB::table('reviews')
+            ->join('customers','reviews.user_id','customers.id')
+            ->where('product_id',$id)
+            ->get();
+        $total = Reviews::all()->where('product_id',$id)->sum(function ($t){
+            return $t->rating;
+        });
+        if (count($reviews) < 1){
+            $result = 1;
+        }else{
+            $result = count($reviews);
+        }
+        $t = $total/$result;
+        $gtotal = round($t,1);
+        $x = count($reviews);
+        return response()->json([
+            'review' => $reviews,
+            'gtotal' => $gtotal,
+            'total' => $x
+        ]);
     }
 }

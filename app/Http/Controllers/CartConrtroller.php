@@ -6,14 +6,10 @@ use App\Models\Cart;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use DB;
 
 class CartConrtroller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $check = Cart::where('session_id',session()->getId())->where('user_id',session('customer'))->get();
@@ -28,23 +24,6 @@ class CartConrtroller extends Controller
         }
 
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $id  = $request->product_id;
@@ -56,32 +35,38 @@ class CartConrtroller extends Controller
         }
 
         $check = Cart::where('product_id',$id)->where('session_id',session()->getId())->where('user_id',session('customer'))->first();
-        if ($check){
-            Cart::where('product_id','=',$id)->first();
+
+        if(session('customer') == true) {
+            if($pro->stock > 0) {
+                if ($check){
+                    Cart::where('product_id','=',$id)->first();
+                    return response()->json([
+                        'error' => 'Product Already Added',
+                    ]);
+                }else{
+                    Cart::insert([
+                        'user_id' => session('customer'),
+                        'product_id' => $id,
+                        'qty' => 1,
+                        'price' => $price,
+                        'session_id' => session()->getId(),
+                        'created_at' => Carbon::now(),
+                    ]);
+                    return response()->json([
+                        'success' => 'Product Successfully Added',
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'sorry' => 'Sorry ! Product Stockout',
+                ]);
+            }
+        } else {
             return response()->json([
-                'error' => 'Product Already Added',
-            ]);
-        }else{
-            Cart::insert([
-                'user_id' => session('customer'),
-                'product_id' => $id,
-                'qty' => 1,
-                'price' => $price,
-                'session_id' => session()->getId(),
-                'created_at' => Carbon::now(),
-            ]);
-            return response()->json([
-                'success' => 'Product Successfully Added',
+                'faild' => 'Please Login first'
             ]);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function add(Request $request)
     {
         $id  = $request->id;
@@ -116,9 +101,22 @@ class CartConrtroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function cartsItems()
     {
-        //
+        $view = DB::table('carts')
+        ->join('products','carts.product_id','products.id')
+        ->where('session_id',session()
+        ->getId())->where('user_id',session('customer'))
+        ->get();
+        $total = Cart::all()->where('user_id',session('customer'))->where('session_id',session()->getId())->sum(function ($t){
+            return $t->price * $t->qty;
+        });
+        $qty = Cart::all()->where('user_id',session('customer'))->where('session_id',session()->getId())->sum('qty');
+        return response()->json([
+            'view' => $view,
+            'grandtotal' => $total,
+            'qty' => $qty
+        ]);
     }
 
     /**
@@ -162,6 +160,13 @@ class CartConrtroller extends Controller
         return response()->json([
             'total' => $data,
             'qty' => $qty
+        ]);
+    }
+
+    public function listDelete($id) {
+        Cart::where('id',$id)->delete();
+        return response()->json([
+            'success' => 'Delete Success'
         ]);
     }
 }

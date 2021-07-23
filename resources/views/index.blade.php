@@ -182,24 +182,12 @@
                                         </div>
                                         @endif
                                         <div class="shopping position-absolute">
-                                            @if(session('customer'))
                                             <h6 class="d-inline-flex">
                                                 <form action="">
                                                     <button class="btn-primary f_btn "><i class="fa fa-heart"></i></button>
                                                 </form>
-
-                                                @if($row->stock > 0)
                                                     <button onclick="submitBtn({{ $row->id }})" class="btn-warning s_btn"><i class="fa fa-shopping-cart"></i></button>
-                                                @else
-                                                    <a onclick="alert('Product no available')" class="btn-warning s_btn"><i class="fa fa-shopping-cart"></i></a>
-                                                @endif
-                                            </h6>
-                                            @else
-                                            <h6 class="d-inline-flex">
-                                                    <a onclick="alert('Please login first')" class="btn-primary f_btn "><i class="fa fa-heart"></i></a>
-                                                    <a onclick="alert('Please login first')" class="btn-warning s_btn"><i class="fa fa-shopping-cart"></i></a>
-                                            </h6>
-                                            @endif
+
                                         </div>
                                         <img src="{{ asset($row->f_img) }}" class="card-img-top d-block" alt="...">
                                         <div style="padding:10px 10px;" class="card-body">

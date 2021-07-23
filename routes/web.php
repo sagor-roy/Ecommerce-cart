@@ -17,7 +17,8 @@ Route::get('/customer/register',[FrontendController::class,'register'])->name('c
 Route::get('/customer/login',[FrontendController::class,'login'])->name('customer.login')->middleware('CustomerAlreadyLoggin');
 Route::get('/customer/profile',[CustomerController::class,'profile'])->name('customer.profile')->middleware('customer');
 Route::get('product/detail/{slug}',[FrontendController::class,'detail'])->name('product.detail');
-Route::post('reviews',[ReviewsController::class,'store'])->name('reviews');
+Route::get('/comment/list/{id}',[FrontendController::class,'commentList']);
+Route::post('/reviews',[ReviewsController::class,'store'])->name('reviews');
 
 // Admin Controller
 Route::prefix('admin/')->name('admin.')->group(function (){
@@ -47,6 +48,8 @@ Route::post('add',[CartConrtroller::class,'add']);
 Route::get('cart/',[CartConrtroller::class,'index'])->name('cart');
 Route::put('cart/update',[CartConrtroller::class,'update'])->name('cart.update');
 Route::delete('cart/update/{id}',[CartConrtroller::class,'destroy'])->name('cart.delete');
+Route::get('carts/items',[CartConrtroller::class,'cartsItems']);
+Route::get('cart/item/delete/{id}',[CartConrtroller::class,'listDelete']);
 
 // Coupon Controller
 Route::post('coupon/',[CouponController::class,'check'])->name('coupon');

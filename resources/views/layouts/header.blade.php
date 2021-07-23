@@ -9,12 +9,18 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/all.css') }}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ asset('asset/css/resposive.css') }}">
     <title>Ecommerce Shop</title>
 </head>
 <body>
+<div id="loader" class="snipper d-none">
+    <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+
+
 <head>
     <div class="wrapper">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -24,9 +30,21 @@
                     <div class="wish-shopping mr-2">
                         <a class="" href=""> <i class="fa fa-heart"></i></a><span class="wish">0</span>
 
-                        <i class="fa fa-shopping-cart text-white bg-success"></i><a id="taka" class="bg-success" href="{{ route('cart') }}">&#2547;</a><span id="shopping" class="shopping"></span>
-
-                        {{-- <a class="bg-success" href="{{ route('cart') }}"> <i class="fa fa-shopping-cart"></i>  {{ number_format($total) }} &#2547;</a><span class="shopping">{{ $qty }}</span> --}}
+                        <i class="fa fa-shopping-cart text-white bg-success"></i><a id="taka" class="bg-success cart" href="{{ route('cart') }}">&#2547;</a><span id="shopping" class="shopping"></span>
+                        @if(session('customer'))
+                        <div class="hover__menu">
+                            <div class="">
+                                <div id="title">
+                                </div>
+                                <div id="product-list">
+                                </div>
+                                <div id="g-total">
+                                </div>
+                            </div>
+                            <div id="empty">
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     @if(session('customer'))
                     <div class="dropdown">
@@ -78,3 +96,6 @@
         </div>
     </div>
 </div> --}}
+
+
+

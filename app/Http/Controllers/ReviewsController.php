@@ -15,11 +15,11 @@ class ReviewsController extends Controller
 
         Reviews::create([
             'user_id' => session('customer'),
-            'product_id' => $request->product_id,
-            'rating' => $request->rate,
+            'product_id' => $request->id,
+            'rating' => $request->rating,
             'comment' => $request->comment,
             'created_at' => Carbon::now(),
         ]);
-        return redirect()->back();
+        return response()->json();
     }
 }

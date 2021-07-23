@@ -50,33 +50,11 @@
                                     </div>
                                     <div class="col-lg-7">
                                         <h3 class="font-weight-bolder">{{ $row->name }}</h3>
-                                        <div class="star">
-                                            <i class="fa fa-star
-                                                @if($gtotal >= 1 || $gtotal >= 2 || $gtotal >= 3 || $gtotal >= 4 ||                                                        $gtotal>= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                            <i class="fa fa-star
-                                                @if($gtotal >= 2 || $gtotal >= 3 || $gtotal >= 4 || $gtotal>= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                            <i class="fa fa-star
-                                                @if($gtotal >= 3 || $gtotal >= 4 || $gtotal>= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                            <i class="fa fa-star
-                                                @if($gtotal >= 4 || $gtotal >= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                            <i class="fa fa-star
-                                                @if($gtotal >= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                            <span>({{ count($reviews) }} reviews)</span>
+                                        <div class="d-flex">
+                                            <div id="star"></div>
+                                            <div id="re-total" class="star ml-3">
+                                            <span id="re-total"> reviews)</span>
+                                        </div>
                                         </div>
 
                                         <div class="like_btn">
@@ -140,81 +118,17 @@
                                 <div class="comment mt-5">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="rating">
-                                                <i class="fa fa-star
-                                                @if($gtotal >= 1 || $gtotal >= 2 || $gtotal >= 3 || $gtotal >= 4 ||                                                        $gtotal>= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                                <i class="fa fa-star
-                                                @if($gtotal >= 2 || $gtotal >= 3 || $gtotal >= 4 || $gtotal>= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                                <i class="fa fa-star
-                                                @if($gtotal >= 3 || $gtotal >= 4 || $gtotal>= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                                <i class="fa fa-star
-                                                @if($gtotal >= 4 || $gtotal >= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
-                                                <i class="fa fa-star
-                                                @if($gtotal >= 5)
-                                                text-warning
-                                                @endif
-                                                "></i>
+                                            <div id="total-rate"></div>
+                                            <div id="rating-view">
                                             </div>
-                                            <h5 class="text-warning font-weight-bold">({{ round($gtotal,1) }}/5)</h5>
-                                            <h5>Reviews : <span class="text-warning reviews">({{ count($reviews) }} review)</span></h5>
                                             <hr>
-                                            @foreach($reviews as $rows)
-                                            <div class="comment-display">
-                                                <img width="25px" src="{{ asset('asset/img/user.png') }}" alt="img">
-                                                <div class="contents d-inline-flex">
-                                                    <h6 class="font-weight-bold mr-1">{{ $rows->customer->name }}</h6>
-                                                    (<div class="rating">
-                                                        <i class="fa fa-star
-                                                            @if($rows->rating == 1 || $rows->rating == 2 ||                                                                        $rows->rating == 3 || $rows->rating == 4 ||                                                                           $rows->rating == 5)
-                                                            text-warning
-                                                            @endif
-                                                            "></i>
-                                                        <i class="fa fa-star
-                                                            @if($rows->rating == 2 || $rows->rating == 3 ||                                                                       $rows->rating == 4 || $rows->rating == 5)
-                                                            text-warning
-                                                            @endif
-                                                            "></i>
-                                                        <i class="fa fa-star
-                                                            @if($rows->rating == 3 || $rows->rating == 4 ||                                                                       $rows->rating == 5)
-                                                            text-warning
-                                                            @endif
-                                                            "></i>
-                                                        <i class="fa fa-star
-                                                            @if($rows->rating == 4 || $rows->rating == 5)
-                                                            text-warning
-                                                            @endif
-                                                            "></i>
-                                                        <i class="fa fa-star
-                                                            @if($rows->rating == 5)
-                                                            text-warning
-                                                            @endif
-                                                            "></i>
-                                                    </div>)
+                                                <div id="cmt-display">
                                                 </div>
-                                                <div class="texts">
-                                                    <span>{{ $rows->comment }}</span>
-                                                    <hr>
-                                                </div>
-                                            </div>
-                                            @endforeach
 
-                                            @if(session('customer'))
-                                            <form action="{{ route('reviews') }}" method="post">
-                                                @csrf
+                                            @if (session('customer'))
+                                            <form id="commentSubmit">
                                                 <input type="hidden" name="product_id" value="{{ $row->id }}">
-                                                <div class="rate">
+                                                <div class="rating mt-4">
                                                     <input type="radio" id="star5" name="rate" value="5" />
                                                     <label for="star5" title="text">5 stars</label>
                                                     <input type="radio" id="star4" name="rate" value="4" />
@@ -223,31 +137,16 @@
                                                     <label for="star3" title="text">3 stars</label>
                                                     <input type="radio" id="star2" name="rate" value="2" />
                                                     <label for="star2" title="text">2 stars</label>
-                                                    <input type="radio" id="star1" name="rate" value="1" />
+                                                    <input type="radio" id="star1" name="rate" value="1"/>
                                                     <label for="star1" title="text">1 star</label>
                                                 </div>
                                                 <div class="form-group mb-0">
-                                                    <input type="text" name="comment" placeholder="Comment here" class="custom_field">
+                                                    <input type="text" name="comment" placeholder="Comment here" class="custom_field" required>
                                                 </div>
                                                 <button class="custom_btn ml-0 btn btn-primary" type="submit">Comment</button>
                                             </form>
                                             @else
-                                                <div class="rate">
-                                                    <input type="radio" id="star5" name="rate" value="5" />
-                                                    <label for="star5" title="text">5 stars</label>
-                                                    <input type="radio" id="star4" name="rate" value="4" />
-                                                    <label for="star4" title="text">4 stars</label>
-                                                    <input type="radio" id="star3" name="rate" value="3" />
-                                                    <label for="star3" title="text">3 stars</label>
-                                                    <input type="radio" id="star2" name="rate" value="2" />
-                                                    <label for="star2" title="text">2 stars</label>
-                                                    <input type="radio" id="star1" name="rate" value="1" />
-                                                    <label for="star1" title="text">1 star</label>
-                                                </div>
-                                                <div class="form-group mb-0">
-                                                    <input type="text" name="comment" placeholder="Comment here" class="custom_field">
-                                                </div>
-                                                <a onclick="alert('Please Login First')" class="custom_btn ml-0 btn btn-primary" type="submit">Comment</a>
+                                            <a class="btn btn-primary btn btn-sm" href="{{ route('customer.login') }}">Login</a>
                                             @endif
                                         </div>
                                     </div>
