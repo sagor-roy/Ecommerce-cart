@@ -64,10 +64,18 @@ class FrontendController extends Controller
         $t = $total/$result;
         $gtotal = round($t,1);
         $x = count($reviews);
+
+        if(session('customer') == true) {
+            $res = 1;
+        }else {
+            $res = 0;
+        }
+
         return response()->json([
             'review' => $reviews,
             'gtotal' => $gtotal,
-            'total' => $x
+            'total' => $x,
+            'res' => $res
         ]);
     }
 }

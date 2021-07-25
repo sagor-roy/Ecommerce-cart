@@ -10,6 +10,8 @@ use App\Http\Controllers\CartConrtroller;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ProductUploadCotroller;
+use Illuminate\Support\Facades\Schema;
 
 // Frontend Controller
 Route::get('/',[FrontendController::class,'index'])->name('home');
@@ -19,6 +21,8 @@ Route::get('/customer/profile',[CustomerController::class,'profile'])->name('cus
 Route::get('product/detail/{slug}',[FrontendController::class,'detail'])->name('product.detail');
 Route::get('/comment/list/{id}',[FrontendController::class,'commentList']);
 Route::post('/reviews',[ReviewsController::class,'store'])->name('reviews');
+Route::get('/product/upload/view',[ProductUploadCotroller::class,'index'])->name('product.upload.view');
+Route::post('/product/upload',[ProductUploadCotroller::class,'store'])->name('product.upload.store');
 
 // Admin Controller
 Route::prefix('admin/')->name('admin.')->group(function (){
@@ -65,3 +69,7 @@ Route::post('like',[LikeController::class,'store'])->name('like');
 
 
 Route::get('cartShow',[CartConrtroller::class,'cartShow']);
+
+////////////////////
+
+Route::post('/load/more/data',[LikeController::class,'load'])->name('loadmore.load_data');

@@ -245,13 +245,27 @@ deleteBtn();
     }
 // END
 
+function reply(id) {
+    alert(id)
+}
+
 function commentList(){
+
     var id = $("input[name=product_id]").val();
     $.ajax({
         url:"/comment/list/"+id+"",
         dataType:'json',
         method:'get',
         success:function (response) {
+
+
+            if(response.res == 1) {
+                var result = 'd-block';
+            }else if (response.res == 0) {
+                var result = 'd-none';
+            }
+
+
             var data = ""
             $.each(response.review,function (key,value){
 
@@ -285,6 +299,9 @@ function commentList(){
                 data = data + "</div>"
                 data = data + "<div class='texts'>"
                 data = data + "<span>"+value.comment+"</span>"
+                data = data + "</div>"
+                data = data + "<div class='mt-2 "+result+"'>"
+                data = data + "<button type='button' onclick='reply("+value.review_id+")' class='text-danger bg-transparent border-0'>Reply</button>"
                 data = data + "</div>"
                 data = data + "</div>"
             });
@@ -326,6 +343,7 @@ function commentList(){
 }
 commentList();
 
+
 $("#commentSubmit").on('submit',function (e){
     e.preventDefault();
     var id = $("input[name=product_id]").val();
@@ -351,6 +369,39 @@ $("#commentSubmit").on('submit',function (e){
             alert(response.responseJSON.errors.comment);
         }
     });
+});
+
+// =========
+
+
+$(document).ready(function(){
+
+var _token = $('input[name="_token"]').val();
+
+load_data('', _token);
+
+function load_data(id="", _token)
+{
+    document.getElementById("loader").classList.remove('d-none');
+ $.ajax({
+  url:"{{ route('loadmore.load_data') }}",
+  method:"POST",
+  data:{id:id, _token:_token},
+  success:function(data)
+  {
+    document.getElementById("loader").classList.add('d-none');
+   $('#load_more_button').remove();
+   $('#post_data').append(data);
+  }
+ })
+}
+
+$(document).on('click', '#load_more_button', function(){
+ var id = $(this).data('id');
+ $('#load_more_button').html('<b>Loading...</b>');
+ load_data(id, _token);
+});
+
 });
 
 

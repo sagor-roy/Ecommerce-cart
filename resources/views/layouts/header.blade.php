@@ -28,6 +28,7 @@
                 <a class="navbar-brand text-white" href="{{ route('home') }}">BDSHOP</a>
                 <div class="text-right d-inline-flex">
                     <div class="wish-shopping mr-2">
+                        <a class="btn btn-danger btn-sm" href="{{ route('product.upload.view') }}">Product Upload</a>
                         <a class="" href=""> <i class="fa fa-heart"></i></a><span class="wish">0</span>
 
                         <i class="fa fa-shopping-cart text-white bg-success"></i><a id="taka" class="bg-success cart" href="{{ route('cart') }}">&#2547;</a><span id="shopping" class="shopping"></span>

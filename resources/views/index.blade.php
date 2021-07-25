@@ -210,27 +210,27 @@
                                                 <i class="fa fa-star
                                                 @if($gtotal >= 1 || $gtotal >= 2 || $gtotal >= 3 || $gtotal >= 4 ||                                                        $gtotal>= 5)
                                                     text-warning
-@endif
+                                                @endif
                                                     "></i>
                                                 <i class="fa fa-star
                                                 @if($gtotal >= 2 || $gtotal >= 3 || $gtotal >= 4 || $gtotal>= 5)
                                                     text-warning
-@endif
+                                                @endif
                                                     "></i>
                                                 <i class="fa fa-star
                                                 @if($gtotal >= 3 || $gtotal >= 4 || $gtotal>= 5)
                                                     text-warning
-@endif
+                                                @endif
                                                     "></i>
                                                 <i class="fa fa-star
                                                 @if($gtotal >= 4 || $gtotal >= 5)
                                                     text-warning
-@endif
+                                                @endif
                                                     "></i>
                                                 <i class="fa fa-star
                                                 @if($gtotal >= 5)
                                                     text-warning
-@endif
+                                                @endif
                                                     "></i>
                                             </div>
                                             @if($row->discount == null)
@@ -238,13 +238,12 @@
                                             @else
                                             <h6 class="font-weight-bold" >{{ number_format($row->price - $row->discount * $row->price/100) }}&#2547;<span class="discount">{{ number_format($row->price) }}&#2547;</span></h6>
                                             @endif
-{{--                                            <a href="{{ route('product.detail',$row->slug) }}" class="card-link stretched-link"></a>--}}
                                         </div>
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
-                            {{ $product->links() }}
+                            {{-- {{ $product->links() }} --}}
                         </div>
                     </div>
                 </div>
